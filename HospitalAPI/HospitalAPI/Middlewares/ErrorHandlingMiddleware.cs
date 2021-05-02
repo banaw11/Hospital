@@ -23,7 +23,7 @@ namespace HospitalAPI.Middlewares
             catch(NotFoundException e)
             {
                 context.Response.StatusCode = 404;
-                await context.Response.WriteAsync($"No content for request at {context.Request.Path} with query {context.Request.QueryString} \n Details : {e.Message}");
+                await context.Response.WriteAsync($"Not found content for request at {context.Request.Path} \n Details : {e.Message}");
             }
             catch(ForbidException e)
             {

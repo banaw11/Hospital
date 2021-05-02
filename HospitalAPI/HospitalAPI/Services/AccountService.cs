@@ -50,6 +50,22 @@ namespace HospitalAPI.Services
             return newUserAccount;
         }
 
+        public async Task ResetPassword(ResetPasswordDTO dto, bool isAdministrator, string userLogin)
+        {
+            if (!isAdministrator)
+                if (userLogin != dto.Login)
+                    throw new ForbidException("You don't have rights to change password for other user");
+
+            var employee = await _dbContext.Employees.FirstOrDefaultAsync(e => e.Login == dto.Login);
+
+            var newPasswordHash = _passwordHasher.HashPassword(employee, dto.Password);
+
+            employee.PasswordHash = newPasswordHash;
+
+            _dbContext.Employees.Update(employee);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<string> SignInUser(LoginUserDTO dto)
         {
             var employee = await _dbContext.Employees

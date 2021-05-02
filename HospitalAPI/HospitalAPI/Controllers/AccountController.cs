@@ -1,9 +1,8 @@
 ﻿using HospitalAPI.DTOs;
 using HospitalAPI.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HospitalAPI.Controllers
@@ -18,6 +17,7 @@ namespace HospitalAPI.Controllers
         }
 
         [HttpPost("register")]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<ActionResult<CreatedUserAccountDTO>> Register([FromBody] RegisterUserDTO dto)
         {
             var newUserAccount = await _accountService.RegisterUser(dto);
@@ -31,6 +31,17 @@ namespace HospitalAPI.Controllers
             var token = await _accountService.SignInUser(dto);
 
             return Ok(token);
+        }
+
+        [HttpPut("password")]
+        public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDTO dto)
+        {
+            var isAdministrator = User.IsInRole("ADMINISTRATOR");
+            var userLogin = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            await _accountService.ResetPassword(dto, isAdministrator, userLogin);
+
+            return NoContent();
         }
     }
 }
