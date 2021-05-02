@@ -18,6 +18,6 @@ namespace HospitalAPI.DTOs
         [Required]
         public Profession Profession { get; set; }
         public Specialization Specialization { get; set; }
-        public int RtPPNumber { get; set; }
+        public string RtPPNumber { get; set; }
     }
 }

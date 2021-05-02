@@ -64,7 +64,7 @@ namespace HospitalAPI.DTOs.Validators
             RuleFor(d => d.RtPPNumber)
                 .Custom((value, context) =>
                 {
-                    if (string.IsNullOrEmpty(value.ToString()))
+                    if (string.IsNullOrEmpty(value))
                     {
                         var numberExist = dbContext.Employees.Any(e => e.RtPPNumber == value);
                         if (numberExist)

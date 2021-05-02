@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using HospitalAPI.Data;
+using HospitalAPI.Data.Seeding;
 using HospitalAPI.DTOs;
 using HospitalAPI.DTOs.Validators;
 using HospitalAPI.Entities;
@@ -27,6 +28,7 @@ namespace HospitalAPI.Extensions
                 var connectionString = config.GetConnectionString("SqLiteConnection");
                 options.UseSqlite(connectionString);
             });
+            services.AddScoped<EmployeesSeeder>();
 
             services.AddScoped<IValidator<RegisterUserDTO>, RegisterUserDTOValidator>();
             services.AddScoped<IValidator<ResetPasswordDTO>, ResetPasswordDTOValidator>();
