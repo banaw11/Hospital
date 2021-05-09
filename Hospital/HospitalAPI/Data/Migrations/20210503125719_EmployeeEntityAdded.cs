@@ -10,19 +10,18 @@ namespace HospitalAPI.Data.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    PersonalId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", false),
-                    Profession = table.Column<int>(type: "INTEGER", nullable: false),
-                    Specialization = table.Column<int>(type: "INTEGER", nullable: true),
-                    RtPPNumber = table.Column<int>(type: "INTEGER", nullable: true),
                     Login = table.Column<string>(type: "TEXT", nullable: false),
+                    Profession = table.Column<int>(type: "INTEGER", nullable: false),
+                    Specialization = table.Column<int>(type: "INTEGER", nullable: false),
+                    RtPPNumber = table.Column<string>(type: "TEXT", nullable: true),
                     PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
                     FirstName = table.Column<string>(type: "TEXT", nullable: true),
-                    LastName = table.Column<string>(type: "TEXT", nullable: true)
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
+                    PersonalId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.PersonalId);
+                    table.PrimaryKey("PK_Employees", x => x.Login);
                 });
         }
 

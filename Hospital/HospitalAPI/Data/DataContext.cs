@@ -16,13 +16,15 @@ namespace HospitalAPI.Data
             base.OnModelCreating(builder);
 
             builder.Entity<Employee>()
-                .HasKey(e => e.PersonalId);
+                .HasKey(e => e.Login);
+          
             builder.Entity<Employee>()
                 .Property(e => e.PersonalId)
                 .IsRequired();
             builder.Entity<Employee>()
                 .Property(e => e.Login)
                 .IsRequired();
+
             builder.Entity<Employee>()
                 .Property(e => e.PasswordHash)
                 .IsRequired();

@@ -2,6 +2,7 @@
 using HospitalAPI.Data;
 using HospitalAPI.Data.Seeding;
 using HospitalAPI.DTOs;
+using HospitalAPI.DTOs.Pagination;
 using HospitalAPI.DTOs.Validators;
 using HospitalAPI.Entities;
 using HospitalAPI.Helpers;
@@ -20,6 +21,7 @@ namespace HospitalAPI.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IPasswordHasher<Employee>, PasswordHasher<Employee>>();
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
@@ -32,6 +34,8 @@ namespace HospitalAPI.Extensions
 
             services.AddScoped<IValidator<RegisterUserDTO>, RegisterUserDTOValidator>();
             services.AddScoped<IValidator<ResetPasswordDTO>, ResetPasswordDTOValidator>();
+            services.AddScoped<IValidator<NewEmployeeDetailsDTO>, NewEmployeeDetailsDTOValidator>();
+            services.AddScoped<IValidator<EmployeesPaginationQuery>, EmployeesPaginationQueryValidator>();
 
             return services;
         }
