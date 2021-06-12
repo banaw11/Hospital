@@ -25,6 +25,8 @@ namespace HospitalAPI.Helpers
                 .ForMember(d => d.SpecializationName, opt =>
                     opt.MapFrom(e => e.Specialization != Specialization.NULL ? e.Specialization.ToString() : null));
 
+            CreateMap<Schedule, ScheduleDTO>();
+
         }
     }
 }

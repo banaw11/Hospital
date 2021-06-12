@@ -22,6 +22,7 @@ namespace HospitalAPI.Extensions
         {
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IPasswordHasher<Employee>, PasswordHasher<Employee>>();
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
@@ -36,6 +37,7 @@ namespace HospitalAPI.Extensions
             services.AddScoped<IValidator<ResetPasswordDTO>, ResetPasswordDTOValidator>();
             services.AddScoped<IValidator<NewEmployeeDetailsDTO>, NewEmployeeDetailsDTOValidator>();
             services.AddScoped<IValidator<EmployeesPaginationQuery>, EmployeesPaginationQueryValidator>();
+            services.AddScoped<IValidator<GenerateSheduleQuery>, GenerateScheduleQueryValidator>();
 
             return services;
         }

@@ -10,6 +10,7 @@ namespace HospitalAPI.Entities
         public Profession Profession { get; set; }
         public Specialization Specialization { get; set; }
         public string RtPPNumber { get; set; }
+        public virtual IEnumerable<Schedule> Schedules { get; set; }
 
         public static List<string> GetNames()
         {
