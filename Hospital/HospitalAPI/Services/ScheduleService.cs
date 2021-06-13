@@ -24,6 +24,44 @@ namespace HospitalAPI.Services
             _mapper = mapper;
         }
 
+        public async Task<bool> CreateNewSchedule(DateTime date, string employeeLogin)
+        {
+            var user = await _dbContext.Employees.FindAsync(employeeLogin);
+
+            if (user == null)
+                throw new NotFoundException("User not found in database");
+
+            Schedule schedule = new Schedule
+            {
+                Date = date,
+                Month = date.Month,
+                EmployeeLogin = employeeLogin,
+                Employee = user
+            };
+
+            _dbContext.Schedules.Add(schedule);
+
+            if (await _dbContext.SaveChangesAsync() == 1)
+                return true;
+
+            return false;
+        }
+
+        public async Task<bool> DeleteSchedule(int scheduleId)
+        {
+            var schedule = await _dbContext.Schedules.FindAsync(scheduleId);
+
+            if (schedule == null)
+                throw new NotFoundException("Schedule not found in database");
+
+            _dbContext.Schedules.Remove(schedule);
+
+            if (await _dbContext.SaveChangesAsync() == 1)
+                return true;
+
+            return false;
+        }
+
         public async Task DeleteSchedulesForMonth(int month)
         {
             var schedules = await _dbContext.Schedules.Where(s => s.Date.Month == month).ToListAsync();
@@ -146,6 +184,52 @@ namespace HospitalAPI.Services
 
         }
 
+        public async Task<IEnumerable<DateTime>> GetAvailableDaysForChange(int scheduleId)
+        {
+            var schedule = _dbContext.Schedules.Include(s => s.Employee).FirstOrDefault(s => s.Id == scheduleId);
+
+            if(schedule == null)
+            {
+                throw new NotFoundException("Schedule not found");
+            }
+
+            int month = schedule.Month;
+            Profession profession = schedule.Employee.Profession;
+            Specialization specialization = schedule.Employee.Specialization;
+            string employeeLogin = schedule.EmployeeLogin;
+
+            int daysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, month);
+
+            List<DateTime> days = await GetAvailableDays(month, profession, employeeLogin, specialization);
+
+            days.Add(schedule.Date);
+
+            return days.OrderBy(d => d).ToList();
+
+        }
+
+        public async Task<IEnumerable<DateTime>> GetAvailableDaysForNew(string employeeLogin, int month)
+        {
+            var user = _dbContext.Employees.FirstOrDefault(e => e.Login == employeeLogin);
+
+            if(user == null)
+                throw new NotFoundException("User not found in database");
+
+            List<DateTime> days = new List<DateTime>();
+
+            var schedulesCount = _dbContext.Schedules
+                .Where(s => s.EmployeeLogin == employeeLogin && s.Month == month && s.Date.Year == DateTime.Now.Year)
+                .Count();
+
+            if(schedulesCount >= 10)
+                return days;
+
+            days = await GetAvailableDays(month, user.Profession, employeeLogin, user.Specialization);
+
+            return days;
+
+        }
+
         public async Task<IEnumerable<ScheduleDTO>> GetSchedulesForUserAsync(string login)
         {
             var userExistAndHasShedules = _dbContext.Employees
@@ -164,5 +248,75 @@ namespace HospitalAPI.Services
 
             return schedules;
         }
+
+        public async Task<bool> UpdateSchedule(int scheduleId, DateTime date)
+        {
+            var schedule = await _dbContext.Schedules.FindAsync(scheduleId);
+
+            if (schedule == null)
+                throw new NotFoundException("Schedule not found in databse");
+
+            schedule.Date = date;
+            _dbContext.Schedules.Update(schedule);
+
+            if (await _dbContext.SaveChangesAsync() == 1)
+                return true;
+
+            return false;
+        }
+
+        private async Task<List<DateTime>> GetAvailableDays(int month, Profession profession, string employeeLogin, Specialization specialization)
+        {
+            List<DateTime> days = new List<DateTime>();
+            int daysInMonth = DateTime.DaysInMonth(DateTime.Now.Year,month);
+
+            for (int i = 1; i <= daysInMonth; i++)
+            {
+                days.Add(new DateTime(DateTime.Now.Year, month, i));
+            }
+
+            if (profession == Profession.NURSE)
+            {
+                var schedulesDays = _dbContext.Schedules
+                    .Where(s => s.Month == month && s.EmployeeLogin == employeeLogin)
+                    .Select(s => s.Date)
+                    .ToList();
+
+                List<DateTime> availableDays = new List<DateTime>();
+                foreach (var day in days)
+                {
+                    if (!schedulesDays.Contains(day) && !schedulesDays.Contains(day.AddDays(-1)) && !schedulesDays.Contains(day.AddDays(1)))
+                        availableDays.Add(day);
+                }
+
+                days = availableDays;
+            }
+            else if (profession == Profession.DOCTOR)
+            {
+                var otherSchedulesDays = await _dbContext.Schedules
+                    .Where(s => s.Month == month && s.Date.Year == DateTime.Now.Year)
+                    .Include(s => s.Employee)
+                    .Where(s => s.EmployeeLogin != employeeLogin && s.Employee.Specialization == specialization)
+                    .Select(s => s.Date)
+                    .ToListAsync();
+
+                var employeeSchedulesDays = _dbContext.Schedules
+                    .Where(s => s.Month == month && s.Date.Year == DateTime.Now.Year && s.EmployeeLogin == employeeLogin)
+                    .Select(s => s.Date)
+                    .ToList();
+
+                List<DateTime> availableDays = new List<DateTime>();
+                foreach (var day in days)
+                {
+                    if (!employeeSchedulesDays.Contains(day) && !otherSchedulesDays.Contains(day) && !employeeSchedulesDays.Contains(day.AddDays(1)) && !employeeSchedulesDays.Contains(day.AddDays(-1)))
+                        availableDays.Add(day);
+                }
+
+                days = availableDays;
+            }
+
+            return days;
+        }
+
     }
 }

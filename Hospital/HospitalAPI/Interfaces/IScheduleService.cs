@@ -13,5 +13,10 @@ namespace HospitalAPI.Interfaces
         Task GenerateScheduleForDoctorsAsync(int month);
         Task DeleteSchedulesForMonth(int month);
         Task<IEnumerable<ScheduleDTO>> GetSchedulesForUserAsync(string login);
+        Task<IEnumerable<DateTime>> GetAvailableDaysForChange(int scheduleId);
+        Task<IEnumerable<DateTime>> GetAvailableDaysForNew(string employeeLogin, int month);
+        Task<bool> CreateNewSchedule(DateTime date, string employeeLogin);
+        Task<bool> DeleteSchedule(int scheduleId);
+        Task<bool> UpdateSchedule(int scheduleId, DateTime date);
     }
 }
