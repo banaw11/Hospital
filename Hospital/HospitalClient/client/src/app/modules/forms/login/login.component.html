@@ -1,0 +1,63 @@
+<div fxFill fxFlayout="column" fxLayoutAlign="cnter start">
+    <nb-card fxFlexOffset="calc(50% - 250px)" style="width: 500px; height: calc(100% - 30px);" >
+        <nb-card-body>
+            <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="calc(50% - 380px /3)" fxFill>
+                <div>
+                    <h3>Logowanie do systemu</h3>
+                </div>
+                <div>
+                    <form #loginForm="ngForm" fxLayout="column" autocomplete="off" fxLayoutGap="20px" (ngSubmit)="signIn()" >
+                        <div class="form-group">
+                            <label class="label" for="input-email" col-form-label>Login</label>
+                            <input class="form-control"
+                             nbInput 
+                             fullWidth
+                             required
+                             name="login"
+                             [(ngModel)]="user.login" 
+                             #login="ngModel"
+                             id="input-login"
+                             [status]="login.touched ? (login.invalid ?  'danger': 'succes'): 'basic' "
+                             placeholder="login">
+                             <ng-container *ngIf="login.invalid && login.touched">
+                                <p class="caption status-danger" *ngIf="login.errors?.required">
+                                    Pole login jest wymagane
+                                </p>
+                             </ng-container>
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="input-password" col-form-label>Hasło</label>
+                            <input class="form-control" 
+                             nbInput 
+                             fullWidth 
+                             required
+                             name="password"
+                             type="password"
+                             [(ngModel)]="user.password"
+                             #password="ngModel"
+                             placeholder="hasło"
+                             id="input-password"
+                             [status]="password.touched ? (password.invalid ?  'danger': 'succes'): 'basic' ">
+                             <ng-container *ngIf="password.invalid && password.touched">
+                                <p class="caption status-danger" *ngIf="password.errors?.required">
+                                    Pole hasło jest wymagane
+                                </p>
+                             </ng-container>
+                        </div>
+                        <div class="form-group">
+                            <button class="form-control" nbButton hero shape="semi-round" status="info" type="submit" [disabled]="!loginForm.valid">Zaloguj</button>
+                        </div>
+                    </form>
+                </div>
+                <div style="min-width: 200px;">
+                    <nb-alert *ngIf="submitted" [outline]="statusMessage ? 'success' : 'danger'" role="alert">
+                        <p class="alert-title">{{message}}</p>
+                        <ul  class="alert-message-list">
+                            <li *ngFor="let error of errors" class="alert-message">{{error}}</li>
+                        </ul>
+                    </nb-alert>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>

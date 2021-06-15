@@ -18,7 +18,8 @@ namespace HospitalAPI.Middlewares
             catch(BadRequestException e)
             {
                 context.Response.StatusCode = 400;
-                await context.Response.WriteAsync($"Bad request at {context.Request.Path} with error : \n {e.Message}");
+                //logger $"Bad request at {context.Request.Path} with error : \n {e.Message}"
+                await context.Response.WriteAsync(e.Message);
             }
             catch(NotFoundException e)
             {

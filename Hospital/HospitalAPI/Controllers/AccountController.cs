@@ -26,11 +26,11 @@ namespace HospitalAPI.Controllers
         }
 
         [HttpPost("signIn")]
-        public async Task<ActionResult<string>> SignIn([FromBody] LoginUserDTO dto)
+        public async Task<ActionResult<UserDTO>> SignIn([FromBody] LoginUserDTO dto)
         {
-            var token = await _accountService.SignInUser(dto);
+            var userDTO = await _accountService.SignInUser(dto);
 
-            return Ok(token);
+            return Ok(userDTO);
         }
 
         [HttpPut("password")]

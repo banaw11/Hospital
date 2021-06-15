@@ -1,0 +1,20 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" >
+    <div>
+        <nb-actions>
+            <nb-action fxFlexOffset="50">
+                <H2>HOSPITAL</H2>
+            </nb-action>
+        </nb-actions>
+    </div>
+    <div>
+        <nb-actions>
+            <nb-action *ngIf="isLogged">
+                <nb-user [name]="userName ? userName : ''"
+                 [nbContextMenu]="items"
+                  nbContextMenuTrigger="hover" 
+                  nbContextMenuTag="avatar-context"
+                  size="large"></nb-user>
+            </nb-action>
+        </nb-actions>
+    </div>
+</div>

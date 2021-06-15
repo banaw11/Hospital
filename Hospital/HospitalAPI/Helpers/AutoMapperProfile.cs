@@ -10,6 +10,10 @@ namespace HospitalAPI.Helpers
         public AutoMapperProfile()
         {
             CreateMap<RegisterUserDTO, Employee>();
+            CreateMap<Employee, UserDTO>()
+                .ForMember(u => u.Token, opt => opt.Ignore())
+                .ForMember(u => u.Name, opt => opt.MapFrom(e => $"{e.FirstName}, {e.LastName}"));
+
 
             CreateMap<Employee, CreatedUserAccountDTO>()
                 .ForMember(u => u.Name, opt => opt.MapFrom(e => $"{e.FirstName}, {e.LastName}"));
