@@ -17,15 +17,10 @@ export class NavComponent implements OnInit {
     {title: 'Wyloguj'}
   ];
   userName?: string ;
-  constructor(private accountService: AccountService, private menuService: NbMenuService, private router: Router) { 
+  constructor(public accountService: AccountService, private menuService: NbMenuService, private router: Router) { 
     this.accountService.currentUser$.subscribe(user => {
       if(user){
         this.userName = user.name;
-        this.isLogged = true;
-      }
-      else{
-        this.isLogged = false;
-        this.userName = '';
       }
     })
   }

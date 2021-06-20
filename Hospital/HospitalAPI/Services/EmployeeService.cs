@@ -39,6 +39,7 @@ namespace HospitalAPI.Services
             if (query.Count() < 1)
                 throw new NotFoundException("Employees not found");
 
+
             if (!string.IsNullOrEmpty(paginationQuery.SearchPhrase) && !string.IsNullOrEmpty(paginationQuery.FilterColumn))
                 query = query.Where(CreateCompareExpression<Employee>(paginationQuery.FilterColumn, paginationQuery.SearchPhrase));
 

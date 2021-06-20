@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NbSidebarService } from '@nebular/theme';
 
 @Component({
   selector: 'app-index',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
 
-  constructor() { }
+  dateTime : Date = new Date();
+  constructor() {
+    setInterval(() => {
+      this.dateTime = new Date();
+    },1);
+   }
 
   ngOnInit(): void {
+    
   }
 
 }

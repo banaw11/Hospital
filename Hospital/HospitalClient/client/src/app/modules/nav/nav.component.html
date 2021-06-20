@@ -2,13 +2,13 @@
     <div>
         <nb-actions>
             <nb-action fxFlexOffset="50">
-                <H2>HOSPITAL</H2>
+                <H2>SZPITAL</H2>
             </nb-action>
         </nb-actions>
     </div>
     <div>
         <nb-actions>
-            <nb-action *ngIf="isLogged">
+            <nb-action *ngIf="accountService.currentUser$ |async">
                 <nb-user [name]="userName ? userName : ''"
                  [nbContextMenu]="items"
                   nbContextMenuTrigger="hover" 

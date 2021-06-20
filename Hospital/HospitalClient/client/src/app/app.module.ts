@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule, NbActionsModule, NbButtonModule, NbUserModule, NbContextMenuModule, NbMenuModule, NbCardModule, NbInputModule,
-NbAlertModule } from '@nebular/theme';
+NbAlertModule, NbSidebarModule, NbIconModule, NbListModule, NbSelectModule, NbCheckboxModule} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
@@ -14,7 +14,10 @@ import { NavComponent } from './modules/nav/nav.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LoginComponent } from './modules/forms/login/login.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
-import { IndexComponent } from './index/index.component';
+import { IndexComponent } from './components/index/index.component';
+import { EmployeComponent } from './components/employe/employe.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { IndexComponent } from './index/index.component';
     HomeComponent,
     NavComponent,
     LoginComponent,
-    IndexComponent
+    IndexComponent,
+    EmployeComponent,
+    ScheduleComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -41,10 +47,15 @@ import { IndexComponent } from './index/index.component';
     NbMenuModule.forRoot(),
     NbCardModule,
     NbInputModule,
-    NbAlertModule
+    NbAlertModule,
+    NbSidebarModule.forRoot(),
+    NbIconModule,
+    NbListModule,
+    NbSelectModule,
+    NbCheckboxModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })

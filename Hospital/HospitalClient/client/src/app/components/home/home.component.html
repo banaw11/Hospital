@@ -1,3 +1,14 @@
-<div class="content" fxFill>
-    <router-outlet style="height: 100%;"></router-outlet>
-</div>
+<nb-layout>
+    <nb-layout-header fixed style="background-color: skyblue;">
+        <app-nav fxFill></app-nav>
+    </nb-layout-header>
+    <nb-sidebar *ngIf="accountService.currentUser$ |async" style="background-color: skyblue;border: snow; border-style: groove;"
+     flex responsive
+      (mouseover)='sidebarService.expand()'
+       (mouseout)='sidebarService.compact()'>
+        <nb-menu [items]='menuItems'></nb-menu>
+    </nb-sidebar>
+    <nb-layout-column >
+        <router-outlet fxLayout="row" fxLayoutAlign="auto"></router-outlet>
+    </nb-layout-column>
+</nb-layout>
