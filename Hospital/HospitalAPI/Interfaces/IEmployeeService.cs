@@ -8,5 +8,6 @@ namespace HospitalAPI.Interfaces
     {
         Task<PagedList<T>> GetPaginatedDetails<T>(EmployeesPaginationQuery paginationQuery, bool isAdministator);
         Task UpdateEmployeeDetails(NewEmployeeDetailsDTO dto);
+        Task<EmployeeDetailsDTO> GetDetailsForUser(string login);
     }
 }

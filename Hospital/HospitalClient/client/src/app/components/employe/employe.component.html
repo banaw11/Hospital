@@ -1,105 +1,168 @@
 <div fxFill>
-    <nb-card>
-        <nb-card-header>
-            <div fxLayout='row' fxLayoutAlign="space-evenly" fxFill class="form-group">
-                <div>
-                    <nb-select-label class="label">Kolumna:</nb-select-label>
-                <nb-select #columnName style="margin-left: 2%;" size="small" (selectedChange)="changeFilterColumn($event)">
-                    <nb-option [value]='null'>Brak</nb-option>
-                    <nb-option *ngFor='let name of form.columnNamesList' [value]='name.value'>
-                        {{name.name}}
-                    </nb-option>
-                </nb-select>
-                </div>
-                <div>
-                    <nb-select-label class="label">Fraza:</nb-select-label>
-                <nb-select [disabled]='valuesForSearch.length == 0' [selected]='valuesForSearch.length > 0 ? 0 : null' style="margin-left: 2%;" size="small" (selectedChange)='changeSearchPhrase($event)'>
-                    <nb-option *ngFor='let phrase of valuesForSearch' [value]='phrase.value'>
-                        {{phrase.name}}
-                    </nb-option>
-                </nb-select>
-                </div>
-            </div>
-        </nb-card-header>
-        <nb-card-body>
-            <div style="width: 90%; margin-left: 5%; margin-right: 5%;">
-                <nb-actions fullWidth='true' >
-                    <nb-action style="width: 30%; align-items: center;">
-                        <nb-checkbox 
-                            #employee
-                            (change)='checkedChange($event, "LastName")'
-                            [disabled]='profession.checked || specialization.checked'>
-                                Pracownik
-                        </nb-checkbox>
-                    </nb-action>
-                    <nb-action style="width: 30%; align-items: center;" >
-                        <nb-checkbox 
-                            #profession
-                            (change)='checkedChange($event, "Profession")' 
-                            [disabled]='employee.checked || specialization.checked'>
-                                Zawód
-                        </nb-checkbox>
-                    </nb-action>
-                    <nb-action style="width: 30%; align-items: center;">
-                        <nb-checkbox 
-                            #specialization
-                            (change)='checkedChange($event, "Specialization")' 
-                            [disabled]='profession.checked || employee.checked'>
-                                Specializacja
-                        </nb-checkbox>
-                    </nb-action>
-                </nb-actions>
-            </div>
-            <nb-list fxFill>
-                <nb-list-item *ngFor="let employe of pagedList.items"
-                style="width: 90%; margin-left: 5%; margin-right: 5%;">
-                    <div style="width: 30%; border-right: 2px solid gray">
-                        <label>{{employe.name}}</label>
+    <nb-flip-card [showToggleButton]='false' [flipped]='flipped'>
+        <nb-card-front>
+            <nb-card>
+                <nb-card-header>
+                    <div fxLayout='row' fxLayoutAlign="space-evenly" fxFill class="form-group">
+                        <div>
+                            <nb-select-label class="label">Kolumna:</nb-select-label>
+                        <nb-select #columnName style="margin-left: 2%;" size="small" (selectedChange)="changeFilterColumn($event)">
+                            <nb-option [value]='null'>Brak</nb-option>
+                            <nb-option *ngFor='let name of form.columnNamesList' [value]='name.value'>
+                                {{name.name}}
+                            </nb-option>
+                        </nb-select>
+                        </div>
+                        <div>
+                            <nb-select-label class="label">Fraza:</nb-select-label>
+                        <nb-select [disabled]='valuesForSearch.length == 0' [selected]='valuesForSearch.length > 0 ? 0 : null' style="margin-left: 2%;" size="small" (selectedChange)='changeSearchPhrase($event)'>
+                            <nb-option *ngFor='let phrase of valuesForSearch' [value]='phrase.value'>
+                                {{phrase.name}}
+                            </nb-option>
+                        </nb-select>
+                        </div>
                     </div>
-                    <div style="width: 30%; border-right: 2px solid gray">
-                        <label style="margin-left: 1%;" >{{employe.professionName}}</label>
+                </nb-card-header>
+                <nb-card-body>
+                    <div style="width: 90%; margin-left: 5%; margin-right: 5%;">
+                        <nb-actions fullWidth='true' >
+                            <nb-action style="width: 30%; align-items: center;">
+                                <nb-checkbox 
+                                    #employee
+                                    (change)='checkedChange($event, "LastName")'
+                                    [disabled]='profession.checked || specialization.checked'>
+                                        Pracownik
+                                </nb-checkbox>
+                            </nb-action>
+                            <nb-action style="width: 30%; align-items: center;" >
+                                <nb-checkbox 
+                                    #profession
+                                    (change)='checkedChange($event, "Profession")' 
+                                    [disabled]='employee.checked || specialization.checked'>
+                                        Zawód
+                                </nb-checkbox>
+                            </nb-action>
+                            <nb-action style="width: 30%; align-items: center;">
+                                <nb-checkbox 
+                                    #specialization
+                                    (change)='checkedChange($event, "Specialization")' 
+                                    [disabled]='profession.checked || employee.checked'>
+                                        Specializacja
+                                </nb-checkbox>
+                            </nb-action>
+                        </nb-actions>
                     </div>
-                    <div style="width: 30%;">
-                        <label style="margin-left: 1%;">{{employe.specializationName}}</label> 
-                    </div>            
-                </nb-list-item>
-            </nb-list>
-        </nb-card-body>
-        <nb-card-footer fxLayout="row" fxLayoutAlign="space-evenly center">
-                <div fxLayout="row" fxLayoutGap="2%" *ngIf='pagedList.items.length > 0'>
+                    <nb-list fxFill>
+                        <nb-list-item *ngFor="let employe of pagedList.items"
+                        style="width: 90%; margin-left: 5%; margin-right: 5%;" >
+
+                            <div style="width: 30%; border-right: 2px solid gray" >
+                                <label>{{employe.name}}</label>
+                            </div>
+                            <div style="width: 30%; border-right: 2px solid gray">
+                                <label style="margin-left: 1%;" >{{employe.professionName}}</label>
+                            </div>
+                            <div style="width: 30%;">
+                                <label style="margin-left: 1%;">{{employe.specializationName}}</label> 
+                            </div> 
+                            <div>
+                                <nb-icon icon='arrow-ios-forward-outline' (click)='getEmployeeDetails(employe.login)'></nb-icon>
+                            </div>
+                                 
+                        </nb-list-item>
+                    </nb-list>
+                </nb-card-body>
+                <nb-card-footer fxLayout="row" fxLayoutAlign="space-evenly center">
+                        <div fxLayout="row" fxLayoutGap="2%" *ngIf='pagedList.items.length > 0'>
+                            <div>
+                                <nb-icon 
+                                icon='arrow-ios-back-outline' 
+                                (click)='changePageNumber(query.pageNumber-1)'
+                                *ngIf='pagedList.totalPages > 1'></nb-icon>
+                            </div>
+                            <div *ngFor="let page of pages">
+                                <button nbButton status='primary' size='tiny' shape='semi-round' (click)='changePageNumber(page.value)'>{{page.name}}</button>
+                            </div>
+                            <div>
+                                <nb-icon 
+                                icon='arrow-ios-forward-outline' 
+                                (click)='changePageNumber(query.pageNumber+1)'
+                                *ngIf='pagedList.totalPages > 1'></nb-icon>
+                            </div>
+                        </div>
+                    <div fxLayout="row" fxLayoutGap="2%">
+                        <div>
+                            <label class="label">Wyświetl:</label>
+                        </div>
+                        <div>
+                            <button nbButton status='warning' size='tiny' shape='semi-round' (click)='changePageSize(5)'>5</button>
+                        </div>
+                        <div>
+                            <button nbButton status='warning' size='tiny' shape='semi-round' (click)='changePageSize(10)'>10</button>
+                        </div>
+                        <div> 
+                            <button nbButton status='warning' size='tiny' shape='semi-round' (click)='changePageSize(15)'>15</button>
+                        </div>
+                    </div>
+                    <div >
+                       <label class="label">Znaleziono: {{pagedList.totalCount}}</label>
+                    </div>
+                </nb-card-footer>
+            </nb-card>
+        </nb-card-front>
+        <nb-card-back>
+            <nb-card>
+                <nb-card-header>
+                    <h6>PROFIL</h6>
+                </nb-card-header>
+                <nb-card-body fxLayout="column" fxLayoutGap="3%">
+                    <div fxLayout="row" fxLayoutAlign='space-evenly center'>
+                        <div fxLayoutGap="15%">
+                            <label class="label">Login:</label>
+                            <label>{{employeeDetails.login}}</label>
+                        </div>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutAlign='space-evenly center'>
+                        <div fxLayoutGap="15%">
+                            <label class="label">Imię:</label>
+                            <label>{{employeeDetails.firstName}}</label>
+                        </div>
+                        <div fxLayoutGap="15%">
+                            <label class="label">Nazwisko:</label>
+                            <label>{{employeeDetails.lastName}}</label>
+                        </div>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutAlign='space-evenly center'>
+                        <div fxLayoutGap="15%">
+                            <label class="label">Zawód:</label>
+                            <label>{{employeeDetails.professionName}}</label>
+                        </div>
+                        <div *ngIf='employeeDetails.rtPPNumber' fxLayoutGap="15%">
+                            <label class="label">Specializacja:</label>
+                            <label>{{employeeDetails.specializationName}}</label>
+                        </div>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutAlign='space-evenly center'>
+                        <div fxLayoutGap="15%">
+                            <label class="label">Pesel:</label>
+                            <label>{{employeeDetails.personalId}}</label>
+                        </div>
+                        <div *ngIf='employeeDetails.rtPPNumber' fxLayoutGap="15%">
+                            <label class="label">NR_PDWZ:</label>
+                            <label>{{employeeDetails.rtPPNumber}}</label>
+                        </div>
+                    </div>
+                </nb-card-body>
+                <nb-card-footer>
                     <div>
-                        <nb-icon 
-                        icon='arrow-ios-back-outline' 
-                        (click)='changePageNumber(query.pageNumber-1)'
-                        *ngIf='pagedList.totalPages > 1'></nb-icon>
+                        <nb-icon icon='arrow-ios-back-outline' (click)='flipped = !flipped'></nb-icon>
                     </div>
-                    <div *ngFor="let page of pages">
-                        <button nbButton status='primary' size='tiny' shape='semi-round' (click)='changePageNumber(page.value)'>{{page.name}}</button>
-                    </div>
-                    <div>
-                        <nb-icon 
-                        icon='arrow-ios-forward-outline' 
-                        (click)='changePageNumber(query.pageNumber+1)'
-                        *ngIf='pagedList.totalPages > 1'></nb-icon>
-                    </div>
-                </div>
-            <div fxLayout="row" fxLayoutGap="2%">
-                <div>
-                    <label class="label">Wyświetl:</label>
-                </div>
-                <div>
-                    <button nbButton status='warning' size='tiny' shape='semi-round' (click)='changePageSize(5)'>5</button>
-                </div>
-                <div>
-                    <button nbButton status='warning' size='tiny' shape='semi-round' (click)='changePageSize(10)'>10</button>
-                </div>
-                <div> 
-                    <button nbButton status='warning' size='tiny' shape='semi-round' (click)='changePageSize(15)'>15</button>
-                </div>
-            </div>
-            <div >
-               <label class="label">Znaleziono: {{pagedList.totalCount}}</label>
-            </div>
-        </nb-card-footer>
-    </nb-card>
+                </nb-card-footer>
+            </nb-card>
+        </nb-card-back>
+    </nb-flip-card>
+    
 </div>

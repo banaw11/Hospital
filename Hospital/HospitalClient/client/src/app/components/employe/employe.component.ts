@@ -3,6 +3,7 @@ import { NbSelectModule } from '@nebular/theme';
 import { Observable, of as observableOf } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BasicEmployeDetails } from 'src/app/models/basicEmployeDetails';
+import { EmployeeDetails } from 'src/app/models/employeeDetails';
 import { EmployeeDetailsForm } from 'src/app/models/employeeDetailsForm';
 import { EmployeePaginationQuery } from 'src/app/models/employeePaginationQuery';
 import { Profession, Specialization } from 'src/app/models/enums';
@@ -24,6 +25,8 @@ export class EmployeComponent implements OnInit {
   professionSortChecked: boolean = true;
   specializationSortChecked: boolean = false;
   checked = true;
+  employeeDetails: EmployeeDetails ={}
+  flipped: boolean = false
 
 
   pages: {name: string, value: number}[] = [];
@@ -115,6 +118,13 @@ export class EmployeComponent implements OnInit {
     for(let i=firstNumber; i<= lastNumber; i++){
       this.pages.push({name: i.toLocaleString(), value: i});
     }
+  }
+
+  getEmployeeDetails(login: string){
+    this.employeeService.getProfileData(login).subscribe(data => {
+      this.employeeDetails = data;
+      this.flipped = true;
+    })
   }
 
 }

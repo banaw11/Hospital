@@ -27,6 +27,17 @@ namespace HospitalAPI.Services
             _mapper = mapper;
         }
 
+        public async Task<EmployeeDetailsDTO> GetDetailsForUser(string login)
+        {
+            var employee = await _dbContext.Employees.FindAsync(login);
+
+            if (employee == null)
+                throw new NotFoundException("Nie znaleziono pracownika");
+
+            var dto = _mapper.Map<EmployeeDetailsDTO>(employee);
+            return dto;
+        }
+
         public async Task<PagedList<T>> GetPaginatedDetails<T>(EmployeesPaginationQuery paginationQuery, bool isAdministrator)
         {
             IQueryable<Employee> query;

@@ -33,5 +33,13 @@ namespace HospitalAPI.Controllers
 
             return Ok(pagedList);
         }
+
+        [HttpGet("profile")]
+        public async Task<ActionResult<EmployeeDetailsDTO>> GetProfilData([FromQuery] string login)
+        {
+            var data = await _employeeService.GetDetailsForUser(login);
+
+            return Ok(data);
+        }
     }
 }

@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
 import { UserService } from './user.service';
 import { BehaviorSubject } from 'rxjs';
+import { EmployeeService } from './employee.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class AccountService {
   isAdministrator : boolean = false;
   apiUrl = environment.apiUrl;
   
-  constructor(private http: HttpClient, protected userService: UserService) { }
+  constructor(private http: HttpClient, protected userService: UserService, private employeeService: EmployeeService) { }
 
   signIn(model : Account){
     return this.http.post<User>(this.apiUrl + 'account/signin', model).pipe(
@@ -36,6 +37,7 @@ export class AccountService {
     if(user){
       this.isAdministrator = this.setUserRole(user.token);
       this.currentUserSource.next(user);
+      this.employeeService.currentUserLogin = user.login;
     }
   }
 

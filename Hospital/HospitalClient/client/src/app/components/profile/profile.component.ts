@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { EmployeeDetails } from 'src/app/models/employeeDetails';
+import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,7 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  employeeDetails: EmployeeDetails = {};
+
+  constructor(private employeeService: EmployeeService) {
+    this.employeeService.getProfileData().subscribe(data => {
+      this.employeeDetails = data;
+    })
+   }
 
   ngOnInit(): void {
   }

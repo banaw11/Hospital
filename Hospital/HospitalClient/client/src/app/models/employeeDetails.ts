@@ -2,8 +2,8 @@ export interface EmployeeDetails{
     login?: string,
     firstName?: string,
     lastName?: string,
-    PersonalId?: string,
-    proffesionName?: string,
-    spezializationName?: string,
+    personalId?: string,
+    professionName?: string,
+    specializationName?: string,
     rtPPNumber?: string
 }
