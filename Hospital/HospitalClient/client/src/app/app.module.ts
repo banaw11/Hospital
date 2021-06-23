@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule, NbActionsModule, NbButtonModule, NbUserModule, NbContextMenuModule, NbMenuModule, NbCardModule, NbInputModule,
-NbAlertModule, NbSidebarModule, NbIconModule, NbListModule, NbSelectModule, NbCheckboxModule} from '@nebular/theme';
+NbAlertModule, NbSidebarModule, NbIconModule, NbListModule, NbSelectModule, NbCheckboxModule, NbTabsetModule} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
@@ -20,6 +20,7 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CallendarComponent } from './modules/callendar/callendar.component';
+import { AdministrationComponent } from './components/administration/administration.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { CallendarComponent } from './modules/callendar/callendar.component';
     EmployeComponent,
     ScheduleComponent,
     ProfileComponent,
-    CallendarComponent
+    CallendarComponent,
+    AdministrationComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,8 @@ import { CallendarComponent } from './modules/callendar/callendar.component';
     NbIconModule,
     NbListModule,
     NbSelectModule,
-    NbCheckboxModule
+    NbCheckboxModule,
+    NbTabsetModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

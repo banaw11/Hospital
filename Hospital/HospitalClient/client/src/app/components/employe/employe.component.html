@@ -112,57 +112,72 @@
         </nb-card-front>
         <nb-card-back>
             <nb-card>
-                <nb-card-header>
-                    <h6>PROFIL</h6>
-                </nb-card-header>
-                <nb-card-body fxLayout="column" fxLayoutGap="3%">
-                    <div fxLayout="row" fxLayoutAlign='space-evenly center'>
-                        <div fxLayoutGap="15%">
-                            <label class="label">Login:</label>
-                            <label>{{employeeDetails.login}}</label>
-                        </div>
-                    </div>
-                    
-                    <div fxLayout="row" fxLayoutAlign='space-evenly center'>
-                        <div fxLayoutGap="15%">
-                            <label class="label">Imię:</label>
-                            <label>{{employeeDetails.firstName}}</label>
-                        </div>
-                        <div fxLayoutGap="15%">
-                            <label class="label">Nazwisko:</label>
-                            <label>{{employeeDetails.lastName}}</label>
-                        </div>
-                    </div>
-                    
-                    <div fxLayout="row" fxLayoutAlign='space-evenly center'>
-                        <div fxLayoutGap="15%">
-                            <label class="label">Zawód:</label>
-                            <label>{{employeeDetails.professionName}}</label>
-                        </div>
-                        <div *ngIf='employeeDetails.rtPPNumber' fxLayoutGap="15%">
-                            <label class="label">Specializacja:</label>
-                            <label>{{employeeDetails.specializationName}}</label>
-                        </div>
-                    </div>
-                    
-                    <div fxLayout="row" fxLayoutAlign='space-evenly center'>
-                        <div fxLayoutGap="15%">
-                            <label class="label">Pesel:</label>
-                            <label>{{employeeDetails.personalId}}</label>
-                        </div>
-                        <div *ngIf='employeeDetails.rtPPNumber' fxLayoutGap="15%">
-                            <label class="label">NR_PDWZ:</label>
-                            <label>{{employeeDetails.rtPPNumber}}</label>
-                        </div>
-                    </div>
+                <nb-card-body>
+                    <nb-tabset>
+                        <nb-tab tabTitle="Informacje">
+                            <nb-card>
+                                <nb-card-header>
+                                    <h6>PROFIL</h6>
+                                </nb-card-header>
+                                <nb-card-body fxLayout="column" fxLayoutGap="3%">
+                                    <div fxLayout="row" fxLayoutAlign='space-evenly center'>
+                                        <div fxLayoutGap="15%">
+                                            <label class="label">Login:</label>
+                                            <label>{{employeeDetails.login}}</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div fxLayout="row" fxLayoutAlign='space-evenly center'>
+                                        <div fxLayoutGap="15%">
+                                            <label class="label">Imię:</label>
+                                            <label>{{employeeDetails.firstName}}</label>
+                                        </div>
+                                        <div fxLayoutGap="15%">
+                                            <label class="label">Nazwisko:</label>
+                                            <label>{{employeeDetails.lastName}}</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div fxLayout="row" fxLayoutAlign='space-evenly center'>
+                                        <div fxLayoutGap="15%">
+                                            <label class="label">Zawód:</label>
+                                            <label>{{employeeDetails.professionName}}</label>
+                                        </div>
+                                        <div *ngIf='employeeDetails.rtPPNumber' fxLayoutGap="15%">
+                                            <label class="label">Specializacja:</label>
+                                            <label>{{employeeDetails.specializationName}}</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div fxLayout="row" fxLayoutAlign='space-evenly center'>
+                                        <div fxLayoutGap="15%">
+                                            <label class="label">Pesel:</label>
+                                            <label>{{employeeDetails.personalId}}</label>
+                                        </div>
+                                        <div *ngIf='employeeDetails.rtPPNumber' fxLayoutGap="15%">
+                                            <label class="label">NR_PDWZ:</label>
+                                            <label>{{employeeDetails.rtPPNumber}}</label>
+                                        </div>
+                                    </div>
+                                </nb-card-body>
+                                <nb-card-footer>
+                                    <div>
+                                        <nb-icon icon='arrow-ios-back-outline' (click)='flipped = !flipped'></nb-icon>
+                                    </div>
+                                </nb-card-footer>
+                            </nb-card>
+                        </nb-tab>
+                        <nb-tab tabTitle="Dyżur" *ngIf="selectedUserLogin != '' ">
+                            <div fxFill>
+                                <app-callendar [employeeLogin]='selectedUserLogin'></app-callendar>
+                            </div>
+                            <div>
+                                <nb-icon icon='arrow-ios-back-outline' (click)='flipped = !flipped'></nb-icon>
+                            </div>
+                        </nb-tab>
+                    </nb-tabset>
                 </nb-card-body>
-                <nb-card-footer>
-                    <div>
-                        <nb-icon icon='arrow-ios-back-outline' (click)='flipped = !flipped'></nb-icon>
-                    </div>
-                </nb-card-footer>
             </nb-card>
         </nb-card-back>
     </nb-flip-card>
-    
 </div>

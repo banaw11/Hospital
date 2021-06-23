@@ -14,7 +14,8 @@ import { EmployeeService } from './employee.service';
 export class AccountService {
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
-  isAdministrator : boolean = false;
+  private isAdministartorSource = new BehaviorSubject<boolean>(false);
+  isAdministrator = this.isAdministartorSource.asObservable();
   apiUrl = environment.apiUrl;
   
   constructor(private http: HttpClient, protected userService: UserService, private employeeService: EmployeeService) { }
@@ -35,7 +36,7 @@ export class AccountService {
 
   setCurentUserData(user: User){
     if(user){
-      this.isAdministrator = this.setUserRole(user.token);
+      this.isAdministartorSource.next(this.setUserRole(user.token));
       this.currentUserSource.next(user);
       this.employeeService.currentUserLogin = user.login;
     }

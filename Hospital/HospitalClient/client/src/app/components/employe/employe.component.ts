@@ -27,6 +27,7 @@ export class EmployeComponent implements OnInit {
   checked = true;
   employeeDetails: EmployeeDetails ={}
   flipped: boolean = false
+  selectedUserLogin : string = '';
 
 
   pages: {name: string, value: number}[] = [];
@@ -121,6 +122,7 @@ export class EmployeComponent implements OnInit {
   }
 
   getEmployeeDetails(login: string){
+    this.selectedUserLogin = login;
     this.employeeService.getProfileData(login).subscribe(data => {
       this.employeeDetails = data;
       this.flipped = true;
