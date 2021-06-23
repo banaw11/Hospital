@@ -230,7 +230,7 @@ namespace HospitalAPI.Services
 
         }
 
-        public async Task<IEnumerable<ScheduleDTO>> GetSchedulesForUserAsync(string login)
+        public async Task<IEnumerable<ScheduleDTO>> GetSchedulesForUserAsync(string login, int month)
         {
             var userExistAndHasShedules = _dbContext.Employees
                 .Any(e => e.Login == login && e.Profession != Profession.ADMINISTRATOR);
@@ -241,12 +241,12 @@ namespace HospitalAPI.Services
             }
 
             var schedules = await _dbContext.Schedules
-                .Where(s => s.EmployeeLogin == login)
+                .Where(s => s.EmployeeLogin == login && s.Month == month)
                 .Select(s => _mapper.Map<ScheduleDTO>(s))
-                .OrderBy(s => s.Date)
                 .ToListAsync();
+                
 
-            return schedules;
+            return schedules.OrderBy(s => s.Date).ToList();
         }
 
         public async Task<bool> UpdateSchedule(int scheduleId, DateTime date)

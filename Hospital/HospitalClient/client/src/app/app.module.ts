@@ -18,6 +18,8 @@ import { IndexComponent } from './components/index/index.component';
 import { EmployeComponent } from './components/employe/employe.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CallendarComponent } from './modules/callendar/callendar.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     IndexComponent,
     EmployeComponent,
     ScheduleComponent,
-    ProfileComponent
+    ProfileComponent,
+    CallendarComponent
   ],
   imports: [
     BrowserModule,

@@ -40,9 +40,9 @@ namespace HospitalAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ScheduleDTO> GetSchedulesForUser([FromQuery] string login)
+        public IEnumerable<ScheduleDTO> GetSchedulesForUser([FromQuery] string login, int month)
         {
-            var schedules = _scheduleService.GetSchedulesForUserAsync(login);
+            var schedules = _scheduleService.GetSchedulesForUserAsync(login, month);
 
             return schedules.Result;
         }

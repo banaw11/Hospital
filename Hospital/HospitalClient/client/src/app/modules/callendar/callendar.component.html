@@ -1,0 +1,36 @@
+<div fxFill>
+    <nb-card size='large'>
+        <nb-card-header>
+            <div fxFill fxLayoutAlign='center center'>
+                <nb-select  [placeholder]='months[currentMonth].name' (selectedChange)='getNewCalendar($event)'>
+                    <nb-option *ngFor="let month of months" [value]='month.index'>{{month.name}}</nb-option>
+                </nb-select>
+            </div>
+        </nb-card-header>
+        <nb-card-body fxLayout='column' fxLayoutAlign='space-evenly center'>
+            <div fxFill>
+                <table fxFill>
+                    <tr style='width: calc(100%/7); height: 3%;'>
+                        <th *ngFor='let day of daynames' style='width: calc(100%/7); height: 10%; border: black 1px solid;'>
+                            <label class="label" fxLayoutAlign='center center'>{{day.name}}</label>
+                        </th>
+                    </tr>
+                    <ng-container *ngFor='let week of calendarTemplateMonth'>
+                        <tr>
+                            <th *ngFor='let day of week' style='width: calc(100%/7); height: 10%; border: black 1px solid;'>
+                                <div id="dayCell" fxLayoutAlign="space-evenly center" fxFill>
+                                    <label class="label">{{day.calendarDay?.dayNumber}}</label>
+                                    <label *ngIf='day.calendarDay?.isDuty' style="color: red;">DYŻUR</label>
+                                </div>
+                            </th>
+                        </tr>
+                    </ng-container>
+                </table>               
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+
+        </nb-card-footer>
+    </nb-card>
+
+</div>
