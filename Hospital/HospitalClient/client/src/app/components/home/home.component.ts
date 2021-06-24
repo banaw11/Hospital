@@ -37,7 +37,25 @@ export class HomeComponent implements OnInit {
           {
             title: "Administracja",
             icon: "edit-2-outline",
-            link: "home/administration",
+            expanded: true,
+            children: [
+              {
+                title: 'Pracownicy',
+                icon: 'people',
+                link: "/home/administration-employees"
+              },
+              {
+                title: 'Dyżury',
+                icon: 'calendar',
+                link: "/home/administration-schedules"
+              },
+              {
+                title: 'Konta',
+                icon: 'person',
+                link: "/home/administration-accounts",
+                
+              }
+            ],
           }
         ]
       }

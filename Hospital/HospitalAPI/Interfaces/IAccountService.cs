@@ -8,5 +8,7 @@ namespace HospitalAPI.Interfaces
         Task<CreatedUserAccountDTO> RegisterUser(RegisterUserDTO dto);
         Task<UserDTO> SignInUser(LoginUserDTO dto);
         Task ResetPassword(ResetPasswordDTO dto, bool isAdministrator, string userLogin);
+        Task UpdateAccount(EmployeeDetailsDTO dto);
+        Task DeleteAccount(string login);
     }
 }

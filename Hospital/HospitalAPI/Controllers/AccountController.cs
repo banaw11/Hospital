@@ -43,5 +43,23 @@ namespace HospitalAPI.Controllers
 
             return NoContent();
         }
+
+        [HttpPut]
+        [Authorize(Roles = "ADMINISTRATOR")]
+        public async Task<ActionResult> Update([FromBody] EmployeeDetailsDTO dto)
+        {
+            await _accountService.UpdateAccount(dto);
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "ADMINISTRATOR")]
+        public async Task<ActionResult> Delete([FromQuery] string login)
+        {
+            await _accountService.DeleteAccount(login);
+
+            return NoContent();
+        }
     }
 }

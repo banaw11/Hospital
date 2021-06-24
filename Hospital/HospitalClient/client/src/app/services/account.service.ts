@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Account } from '../models/account';
 import { map, take } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { User } from '../models/user';
 import { UserService } from './user.service';
 import { BehaviorSubject } from 'rxjs';
 import { EmployeeService } from './employee.service';
+import { RegisterUser } from '../models/registerUser';
+import { CreatedAccount } from '../models/createdAccount';
+import { ResetPassword } from '../models/resetPassword';
+import { EmployeeDetails } from '../models/employeeDetails';
 
 @Injectable({
   providedIn: 'root'
@@ -53,5 +57,43 @@ export class AccountService {
     }
     return false;
   }
+
+  registerUser(registerUser: RegisterUser){
+    return this.http.post<CreatedAccount>(this.apiUrl + 'account/register', registerUser).pipe(
+      map((response : CreatedAccount) => {
+        if(response){
+          return response;
+        }
+        return
+      })
+    )
+  }
+
+  resetPassword(dto: ResetPassword){
+    return this.http.put<ResetPassword>(this.apiUrl + 'account/password', dto).pipe(
+      map(response => {
+        return response;
+      })
+    )
+  }
+
+  updateProfile(dto: EmployeeDetails){
+    return this.http.put<EmployeeDetails>(this.apiUrl + 'account', dto).pipe(
+      map(response => {
+        return response;
+      })
+    )
+  }
+
+  delete(login: string){
+    let params = new HttpParams();
+    params = params.append('login', login);
+    return this.http.delete(this.apiUrl + 'account', {params: params}).pipe(
+      map(response => {
+        return response;
+      })
+    )
+  }
+
 
 }

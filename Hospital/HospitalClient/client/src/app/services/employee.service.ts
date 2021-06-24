@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { BasicEmployeDetails } from '../models/basicEmployeDetails';
 import { EmployeeDetails } from '../models/employeeDetails';
 import { EmployeePaginationQuery } from '../models/employeePaginationQuery';
+import { Profession, Specialization } from '../models/enums';
 import { PagedList } from '../models/pagedList';
 
 @Injectable({
@@ -48,5 +49,16 @@ export class EmployeeService {
     params = params.append('pageNumber', query.pageNumber);
     params = params.append('sortBy', query.sortBy);
     return params;
+  }
+
+  getEmployees(prof: Profession, spec?: Specialization): Observable<BasicEmployeDetails[]>{
+    let params = new HttpParams();
+    params = params.append('profession', prof);
+    params = params.append('specialization', spec ? spec : '');
+    return this.http.get<BasicEmployeDetails[]>(this.apiUrl +'Employee', {params: params}).pipe(
+      map(list => {
+        return list;
+      })
+    )
   }
 }

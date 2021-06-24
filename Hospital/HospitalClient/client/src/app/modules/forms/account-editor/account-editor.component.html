@@ -1,0 +1,94 @@
+
+            <div *ngIf='employeeDetails.login' fxLayout="column" fxLayoutAlign="center center" fxFlex="60">
+                    <form #detailsForm="ngForm" fxLayout="column" autocomplete="off" fxLayoutGap="20px" (ngSubmit)="save()" >
+                        <div fxLayout='row' fxLayoutAlign='space-arround' fxLayoutGap="20px">
+                            <div class="form-group" fxlayou="column">
+                                <label class="label" for="input-firstName" col-form-label>Imię</label>
+                                <input class="form-control"
+                                 nbInput 
+                                 minlength="3"
+                                 name="firstName"
+                                 [(ngModel)]="employeeDetails.firstName" 
+                                 #firstName="ngModel"
+                                 id="input-firstName"
+                                 [status]="firstName.touched ? (firstName.invalid ?  'danger': 'succes'): 'basic' "
+                                 placeholder="Imię">
+                                 <ng-container *ngIf="firstName.invalid && firstName.touched">
+                                    <p class="caption status-danger" *ngIf="firstName.errors?.minlength">
+                                        Pole Imię musi zawierać conajmniej 3 znaki
+                                    </p>
+                                 </ng-container>
+                            </div>
+                            <div class="form-group">
+                                <label class="label" for="input-firstName" col-form-label>Nazwisko</label>
+                                <input class="form-control"
+                                 nbInput 
+                                 name="lastName"
+                                 minlength="3"
+                                 [(ngModel)]="employeeDetails.lastName" 
+                                 #lastName="ngModel"
+                                 id="input-lastName"
+                                 [status]="lastName.touched ? (lastName.invalid ?  'danger': 'succes'): 'basic' "
+                                 placeholder="Nazwisko">
+                                 <ng-container *ngIf="lastName.invalid && lastName.touched">
+                                    <p class="caption status-danger" *ngIf="lastName.errors?.required">
+                                        Pole Nazwisko musi zawierać conajmniej 3 znaki
+                                    </p>
+                                 </ng-container>
+                            </div>
+                            <div class="form-group">
+                                <label class="label" for="input-personalId" col-form-label>PESEL</label>
+                                <input class="form-control"
+                                 nbInput 
+                                 required
+                                 name="personalId"
+                                 [(ngModel)]="employeeDetails.personalId" 
+                                 #personalId="ngModel"
+                                 id="input-personalId"
+                                 [status]="personalId.touched ? (personalId.invalid ?  'danger': 'succes'): 'basic' "
+                                 placeholder="PESEL">
+                                 <ng-container *ngIf="personalId.invalid && personalId.touched">
+                                    <p class="caption status-danger" *ngIf="personalId.errors?.required">
+                                        Pole PESEL jest wymagane
+                                    </p>
+                                 </ng-container>
+                            </div>
+                        </div>
+                        <div class="form-group" *ngIf='firstName.touched || lastName.touched || personalId.touched'>
+                            <button class="form-control" nbButton hero shape="semi-round" status="info" type="submit" [disabled]="!detailsForm.valid">Zapisz</button>
+                        </div>
+                    </form>
+                    <div style="min-width: 200px;">
+                        <nb-alert *ngIf="submitted" [outline]="statusMessage ? 'success' : 'danger'" role="alert">
+                            <p class="alert-title">{{message}}</p>
+                            <ul  class="alert-message-list">
+                                <li *ngFor="let error of errors" class="alert-message">{{error}}</li>
+                            </ul>
+                        </nb-alert>
+                    </div>
+            
+                    <div class="form-group" fxLayout="row" fxLayoutAlign='space-evenly center'>
+                        <div fxLayoutGap="15%">
+                            <label class="label">Login:</label>
+                            <input nbInput disabled [value]='employeeDetails.login'>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" fxLayout="row" fxLayoutAlign='space-evenly center'>
+                        <div fxLayoutGap="15%">
+                            <label class="label">Zawód:</label>
+                            <input nbInput disabled [value]='employeeDetails.professionName'>
+                        </div>
+                        <div *ngIf='employeeDetails.specializationName' fxLayoutGap="15%">
+                            <label class="label">Specializacja:</label>
+                            <input nbInput disabled [value]='employeeDetails.specializationName'>
+                        </div>
+                    </div>
+                    
+                    <div  class="form-group" fxLayout="row" fxLayoutAlign='space-evenly center'>
+                        <div *ngIf='employeeDetails.rtPPNumber' fxLayoutGap="15%">
+                            <label class="label">NR_PDWZ:</label>
+                            <input nbInput disabled [value]='employeeDetails.rtPPNumber'>
+                        </div>
+                    </div>
+            </div>

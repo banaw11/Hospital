@@ -33,6 +33,19 @@ namespace HospitalAPI.Services
             _authenticationSettings = authenticationSettings;
         }
 
+        public async Task DeleteAccount(string login)
+        {
+            var account = await _dbContext.Employees.FindAsync(login);
+
+            if(account == null)
+            {
+                throw new NotFoundException("Konto nie zostało znalezione");
+            }
+
+            _dbContext.Employees.Remove(account);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<CreatedUserAccountDTO> RegisterUser(RegisterUserDTO dto)
         {
             var employe = _mapper.Map<Employee>(dto);
@@ -83,6 +96,22 @@ namespace HospitalAPI.Services
 
             return userDto;
 
+        }
+
+        public async Task UpdateAccount(EmployeeDetailsDTO dto)
+        {
+            var employee = await _dbContext.Employees.FindAsync(dto.Login);
+            if(employee == null)
+            {
+                throw new NotFoundException("Pracownik nie został znaleziony");
+            }
+
+            employee.FirstName = dto.FirstName;
+            employee.LastName = dto.LastName;
+            employee.PersonalId = dto.PersonalId;
+
+            _dbContext.Employees.Update(employee);
+            await _dbContext.SaveChangesAsync();
         }
 
         private string GenerateLogin ()

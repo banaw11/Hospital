@@ -61,10 +61,11 @@ namespace HospitalAPI.DTOs.Validators
                     dto.Profession == Profession.DOCTOR ? value.ToString().Length == 7 : true)
                 .WithMessage($"Lekarz musi mieć podany poprawny numer prawa do wykonywania zawodu");
 
+
             RuleFor(d => d.RtPPNumber)
                 .Custom((value, context) =>
                 {
-                    if (string.IsNullOrEmpty(value))
+                    if (!string.IsNullOrEmpty(value))
                     {
                         var numberExist = dbContext.Employees.Any(e => e.RtPPNumber == value);
                         if (numberExist)

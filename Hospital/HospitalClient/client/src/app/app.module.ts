@@ -18,9 +18,14 @@ import { IndexComponent } from './components/index/index.component';
 import { EmployeComponent } from './components/employe/employe.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CallendarComponent } from './modules/callendar/callendar.component';
-import { AdministrationComponent } from './components/administration/administration.component';
+import { AdministrationEmployeesComponent } from './components/administration-employees/administration-employees.component';
+import { AdministrationSchedulesComponent } from './components/administration-schedules/administration-schedules.component';
+import { AdministrationAccountsComponent } from './components/administration-accounts/administration-accounts.component';
+import { RegisterComponent } from './modules/forms/register/register.component';
+import { AccountEditorComponent } from './modules/forms/account-editor/account-editor.component';
+import { EmployeeSelectComponent } from './modules/employee-select/employee-select.component';
+import { PasswordResetComponent } from './modules/forms/password-reset/password-reset.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +38,13 @@ import { AdministrationComponent } from './components/administration/administrat
     ScheduleComponent,
     ProfileComponent,
     CallendarComponent,
-    AdministrationComponent
+    AdministrationEmployeesComponent,
+    AdministrationSchedulesComponent,
+    AdministrationAccountsComponent,
+    RegisterComponent,
+    AccountEditorComponent,
+    EmployeeSelectComponent,
+    PasswordResetComponent,
   ],
   imports: [
     BrowserModule,

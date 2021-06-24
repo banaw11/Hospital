@@ -7,6 +7,7 @@ using HospitalAPI.Entities;
 using HospitalAPI.Helpers.Enums;
 using HospitalAPI.Interfaces;
 using HospitalAPI.Middlewares.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,6 +71,27 @@ namespace HospitalAPI.Services
 
 
             return pagedList;
+        }
+
+        public async Task<List<BasicEmployeeDetailsDTO>> GetUsers(Profession profession, Specialization? specialization)
+        {
+            if(profession == Profession.DOCTOR && specialization == null)
+            {
+                throw new BadRequestException("Specializacja dla lekarza jest wymagana");
+            }
+
+            var employees = await _dbContext.Employees
+                .Where(e => e.Profession == profession)
+                .ToListAsync();
+
+            if(specialization != null)
+            {
+                employees = employees
+                    .Where(e => (Specialization?)e.Specialization == specialization)
+                    .ToList();
+            }
+
+            return _mapper.Map<List<BasicEmployeeDetailsDTO>>(employees);
         }
 
         public async Task UpdateEmployeeDetails(NewEmployeeDetailsDTO dto)
