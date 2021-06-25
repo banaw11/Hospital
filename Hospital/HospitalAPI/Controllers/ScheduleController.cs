@@ -40,9 +40,9 @@ namespace HospitalAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ScheduleDTO> GetSchedulesForUser([FromQuery] string login)
+        public IEnumerable<ScheduleDTO> GetSchedulesForUser([FromQuery] string login, int month)
         {
-            var schedules = _scheduleService.GetSchedulesForUserAsync(login);
+            var schedules = _scheduleService.GetSchedulesForUserAsync(login, month);
 
             return schedules.Result;
         }
@@ -88,14 +88,11 @@ namespace HospitalAPI.Controllers
             return BadRequest("Something went wrong");
         }
 
-        [HttpPut("Update")]
+        [HttpGet("Update")]
         [Authorize(Roles = "ADMINISTRATOR")]
-        public async Task<ActionResult> Update([FromQuery] int scheduleId, [FromQuery] DateTime date)
+        public async Task<ActionResult> Update([FromQuery] int scheduleId, [FromQuery] int day)
         {
-            if(date.Year != DateTime.Now.Year)
-                return BadRequest("Invalid data from query");
-
-            if (await _scheduleService.UpdateSchedule(scheduleId, date))
+            if (await _scheduleService.UpdateSchedule(scheduleId, day))
                 return Ok();
 
             return BadRequest("Something went wrong");

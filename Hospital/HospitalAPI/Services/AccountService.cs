@@ -33,12 +33,25 @@ namespace HospitalAPI.Services
             _authenticationSettings = authenticationSettings;
         }
 
+        public async Task DeleteAccount(string login)
+        {
+            var account = await _dbContext.Employees.FindAsync(login);
+
+            if(account == null)
+            {
+                throw new NotFoundException("Konto nie zostało znalezione");
+            }
+
+            _dbContext.Employees.Remove(account);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<CreatedUserAccountDTO> RegisterUser(RegisterUserDTO dto)
         {
             var employe = _mapper.Map<Employee>(dto);
 
             if (_dbContext.Employees.Any(e => e.PersonalId == employe.PersonalId))
-                throw new BadRequestException($"User with personal ID number {dto.PersonalId} exist in database");
+                throw new BadRequestException($"Użytkownik z podanym numerem PESEL {dto.PersonalId} istnieje już w bazie danych");
 
             employe.Login = GenerateLogin();
             employe.PasswordHash = _passwordHasher.HashPassword(employe, dto.Password);
@@ -54,7 +67,7 @@ namespace HospitalAPI.Services
         {
             if (!isAdministrator)
                 if (userLogin != dto.Login)
-                    throw new ForbidException("You don't have rights to change password for other user");
+                    throw new ForbidException("Nie masz uprawnień, aby zmienić hasło innemu użytkownikowi");
 
             var employee = await _dbContext.Employees.FirstOrDefaultAsync(e => e.Login == dto.Login);
 
@@ -66,20 +79,39 @@ namespace HospitalAPI.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<string> SignInUser(LoginUserDTO dto)
+        public async Task<UserDTO> SignInUser(LoginUserDTO dto)
         {
             var employee = await _dbContext.Employees
                  .FirstOrDefaultAsync(e => e.Login == dto.Login);
 
             if (employee is null)
-                throw new BadRequestException($"Invalid login or password");
+                throw new BadRequestException($"Nieprawidłowy login lub hasło");
 
             var hashResult = _passwordHasher.VerifyHashedPassword(employee, employee.PasswordHash, dto.Password);
             if (hashResult == PasswordVerificationResult.Failed)
-                throw new BadRequestException($"Invalid login or password");
+                throw new BadRequestException($"Nieprawidłowy login lub hasło");
 
-            return await Task.FromResult(GenerateToken(employee));
+            var userDto = _mapper.Map<UserDTO>(employee);
+            userDto.Token = GenerateToken(employee);
 
+            return userDto;
+
+        }
+
+        public async Task UpdateAccount(EmployeeDetailsDTO dto)
+        {
+            var employee = await _dbContext.Employees.FindAsync(dto.Login);
+            if(employee == null)
+            {
+                throw new NotFoundException("Pracownik nie został znaleziony");
+            }
+
+            employee.FirstName = dto.FirstName;
+            employee.LastName = dto.LastName;
+            employee.PersonalId = dto.PersonalId;
+
+            _dbContext.Employees.Update(employee);
+            await _dbContext.SaveChangesAsync();
         }
 
         private string GenerateLogin ()

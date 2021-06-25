@@ -21,7 +21,7 @@ namespace HospitalAPI.DTOs.Validators
                 .WithMessage($"Nazwa kolumny filtrowania musi zawierać się w [{string.Join("; ", columns)}] \n lub pozostać pusta");
             
             RuleFor(q => q.SortBy)
-                .Must(value => string.IsNullOrEmpty(value) || columns.Contains(value))
+                .Must(value => string.IsNullOrEmpty(value) || columns.Contains(value.ToUpper()))
                 .WithMessage($"Nazwa kolumny sortowania musi zawierać się w [{string.Join("; ", columns)}] \n lub pozostać pusta");
 
             RuleFor(q => q.SearchPhrase)

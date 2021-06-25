@@ -36,7 +36,7 @@ namespace HospitalAPI
             }
             catch(Exception e)
             {
-
+                Console.WriteLine(e.Message);
             }
 
             await host.RunAsync();

@@ -118,14 +118,18 @@ namespace HospitalAPI.Services
 
                         foreach (var day in days)
                         {
-                            Schedule schedule = new Schedule()
+                            if(!schedules.Any(s => s.EmployeeLogin == doctor.Login && 
+                                (s.Date == day.AddDays(1) || s.Date == day.AddDays(-1) || s.Date == day)))
                             {
-                                Date = day,
-                                Month = month,
-                                EmployeeLogin = doctor.Login,
-                                Employee = doctor
-                            };
-                            schedules.Add(schedule);
+                                Schedule schedule = new Schedule()
+                                {
+                                    Date = day,
+                                    Month = month,
+                                    EmployeeLogin = doctor.Login,
+                                    Employee = doctor
+                                };
+                                schedules.Add(schedule);
+                            }
                         }
                     }
                 }
@@ -230,31 +234,42 @@ namespace HospitalAPI.Services
 
         }
 
-        public async Task<IEnumerable<ScheduleDTO>> GetSchedulesForUserAsync(string login)
+        public async Task<IEnumerable<ScheduleDTO>> GetSchedulesForUserAsync(string login, int month)
         {
-            var userExistAndHasShedules = _dbContext.Employees
-                .Any(e => e.Login == login && e.Profession != Profession.ADMINISTRATOR);
+            var userExist = _dbContext.Employees
+                .Any(e => e.Login == login);
 
-            if(!userExistAndHasShedules)
+            if(!userExist)
             {
-                throw new NotFoundException("Employee not found or is Administrator");
+                throw new NotFoundException("Nie znaleziono pracownika");
             }
 
             var schedules = await _dbContext.Schedules
-                .Where(s => s.EmployeeLogin == login)
+                .Where(s => s.EmployeeLogin == login && s.Month == month)
                 .Select(s => _mapper.Map<ScheduleDTO>(s))
-                .OrderBy(s => s.Date)
                 .ToListAsync();
+                
 
-            return schedules;
+            return schedules.OrderBy(s => s.Date).ToList();
         }
 
-        public async Task<bool> UpdateSchedule(int scheduleId, DateTime date)
+        public async Task<bool> UpdateSchedule(int scheduleId, int day)
         {
-            var schedule = await _dbContext.Schedules.FindAsync(scheduleId);
+            var schedule = await _dbContext.Schedules.FirstOrDefaultAsync(s => s.Id == scheduleId);
 
             if (schedule == null)
+            {
                 throw new NotFoundException("Schedule not found in databse");
+            }
+                
+
+            if(day> DateTime.DaysInMonth(schedule.Date.Year,schedule.Date.Month) || day < 1)
+            {
+                throw new BadRequestException("Podany dzień jest nieprawidłowy");
+            }
+                
+
+            var date = new DateTime(schedule.Date.Year, schedule.Date.Month, day);
 
             schedule.Date = date;
             _dbContext.Schedules.Update(schedule);

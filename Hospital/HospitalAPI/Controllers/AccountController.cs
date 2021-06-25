@@ -26,11 +26,11 @@ namespace HospitalAPI.Controllers
         }
 
         [HttpPost("signIn")]
-        public async Task<ActionResult<string>> SignIn([FromBody] LoginUserDTO dto)
+        public async Task<ActionResult<UserDTO>> SignIn([FromBody] LoginUserDTO dto)
         {
-            var token = await _accountService.SignInUser(dto);
+            var userDTO = await _accountService.SignInUser(dto);
 
-            return Ok(token);
+            return Ok(userDTO);
         }
 
         [HttpPut("password")]
@@ -40,6 +40,24 @@ namespace HospitalAPI.Controllers
             var userLogin = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             await _accountService.ResetPassword(dto, isAdministrator, userLogin);
+
+            return NoContent();
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "ADMINISTRATOR")]
+        public async Task<ActionResult> Update([FromBody] EmployeeDetailsDTO dto)
+        {
+            await _accountService.UpdateAccount(dto);
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "ADMINISTRATOR")]
+        public async Task<ActionResult> Delete([FromQuery] string login)
+        {
+            await _accountService.DeleteAccount(login);
 
             return NoContent();
         }

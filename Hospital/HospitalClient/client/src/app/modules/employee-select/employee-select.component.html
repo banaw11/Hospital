@@ -1,0 +1,36 @@
+<div fxFill fxLayout="column" fxLayoutAlign="center" fxLayoutGap="8%">
+    <div>
+        <h6>Wybierz Pracownika</h6>
+    </div>
+    <div fxLayout="row" fxLayoutGap='5%'>
+        <div fxLayout='column'>
+            <nb-select-label>Zawód</nb-select-label>
+            <nb-select (selectedChange)='professionSelected($event)'>
+                <nb-option *ngFor='let profession of professions' [value]='profession.value'>
+                    {{profession.name}}
+                </nb-option>
+            </nb-select>
+        </div>
+        <div fxLayout='column' *ngIf='!hidden'>
+            <nb-select-label>Specializacja</nb-select-label>
+            <nb-select (selectedChange)='specializationSelected($event)'>
+                <nb-option *ngFor='let specialization of specializations' [value]='specialization.value'>
+                    {{specialization.name}}
+                </nb-option>
+            </nb-select>
+        </div>
+    </div>
+    
+    <div fxLayout='column' *ngIf='employees.length != 0'>
+        <nb-card size='small'>
+            <nb-list>
+                <nb-list-item *ngFor='let employee of employees'>
+                    <nb-actions (click)='onSelect(employee.login)'>
+                        <nb-action>{{employee.name}}</nb-action>
+                        <nb-action>{{employee.login}}</nb-action>
+                    </nb-actions>
+                </nb-list-item>
+            </nb-list>
+        </nb-card>
+    </div>
+</div>

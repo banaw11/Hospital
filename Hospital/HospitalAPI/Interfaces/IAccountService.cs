@@ -6,7 +6,9 @@ namespace HospitalAPI.Interfaces
     public interface IAccountService
     {
         Task<CreatedUserAccountDTO> RegisterUser(RegisterUserDTO dto);
-        Task<string> SignInUser(LoginUserDTO dto);
+        Task<UserDTO> SignInUser(LoginUserDTO dto);
         Task ResetPassword(ResetPasswordDTO dto, bool isAdministrator, string userLogin);
+        Task UpdateAccount(EmployeeDetailsDTO dto);
+        Task DeleteAccount(string login);
     }
 }

@@ -7,6 +7,7 @@ using HospitalAPI.Entities;
 using HospitalAPI.Helpers.Enums;
 using HospitalAPI.Interfaces;
 using HospitalAPI.Middlewares.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,17 @@ namespace HospitalAPI.Services
             _mapper = mapper;
         }
 
+        public async Task<EmployeeDetailsDTO> GetDetailsForUser(string login)
+        {
+            var employee = await _dbContext.Employees.FindAsync(login);
+
+            if (employee == null)
+                throw new NotFoundException("Nie znaleziono pracownika");
+
+            var dto = _mapper.Map<EmployeeDetailsDTO>(employee);
+            return dto;
+        }
+
         public async Task<PagedList<T>> GetPaginatedDetails<T>(EmployeesPaginationQuery paginationQuery, bool isAdministrator)
         {
             IQueryable<Employee> query;
@@ -38,6 +50,7 @@ namespace HospitalAPI.Services
 
             if (query.Count() < 1)
                 throw new NotFoundException("Employees not found");
+
 
             if (!string.IsNullOrEmpty(paginationQuery.SearchPhrase) && !string.IsNullOrEmpty(paginationQuery.FilterColumn))
                 query = query.Where(CreateCompareExpression<Employee>(paginationQuery.FilterColumn, paginationQuery.SearchPhrase));
@@ -58,6 +71,27 @@ namespace HospitalAPI.Services
 
 
             return pagedList;
+        }
+
+        public async Task<List<BasicEmployeeDetailsDTO>> GetUsers(Profession profession, Specialization? specialization)
+        {
+            if(profession == Profession.DOCTOR && specialization == null)
+            {
+                throw new BadRequestException("Specializacja dla lekarza jest wymagana");
+            }
+
+            var employees = await _dbContext.Employees
+                .Where(e => e.Profession == profession)
+                .ToListAsync();
+
+            if(specialization != null)
+            {
+                employees = employees
+                    .Where(e => (Specialization?)e.Specialization == specialization)
+                    .ToList();
+            }
+
+            return _mapper.Map<List<BasicEmployeeDetailsDTO>>(employees);
         }
 
         public async Task UpdateEmployeeDetails(NewEmployeeDetailsDTO dto)

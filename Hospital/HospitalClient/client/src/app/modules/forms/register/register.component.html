@@ -1,0 +1,169 @@
+
+            <div fxLayout="column" fxLayoutAlign="center center" fxFlex="60">
+                <div>
+                    <h6>Rejestracja nowego pracownika</h6>
+                </div>
+                    <form #registerForm="ngForm" fxLayout="column" autocomplete="off" fxLayoutGap="20px" (ngSubmit)="register()" >
+                        <div fxLayout='row' fxLayoutAlign='space-arround' fxLayoutGap="20px">
+                            <div class="form-group" fxlayou="column">
+                                <label class="label" for="input-firstName" col-form-label>Imię</label>
+                                <input class="form-control"
+                                 nbInput 
+                                 required
+                                 name="firstName"
+                                 [(ngModel)]="registerUser.firstName" 
+                                 #firstName="ngModel"
+                                 id="input-firstName"
+                                 [status]="firstName.touched ? (firstName.invalid ?  'danger': 'succes'): 'basic' "
+                                 placeholder="Imię">
+                                 <ng-container *ngIf="firstName.invalid && firstName.touched">
+                                    <p class="caption status-danger" *ngIf="firstName.errors?.required">
+                                        Pole Imię jest wymagane
+                                    </p>
+                                 </ng-container>
+                            </div>
+                            <div class="form-group">
+                                <label class="label" for="input-firstName" col-form-label>Nazwisko</label>
+                                <input class="form-control"
+                                 nbInput 
+
+                                 required
+                                 name="lastName"
+                                 [(ngModel)]="registerUser.lastName" 
+                                 #lastName="ngModel"
+                                 id="input-lastName"
+                                 [status]="lastName.touched ? (lastName.invalid ?  'danger': 'succes'): 'basic' "
+                                 placeholder="Nazwisko">
+                                 <ng-container *ngIf="lastName.invalid && lastName.touched">
+                                    <p class="caption status-danger" *ngIf="lastName.errors?.required">
+                                        Pole Nazwisko jest wymagane
+                                    </p>
+                                 </ng-container>
+                            </div>
+                            <div class="form-group">
+                                <label class="label" for="input-personalId" col-form-label>PESEL</label>
+                                <input class="form-control"
+                                 nbInput 
+                                 required
+                                 name="personalId"
+                                 [(ngModel)]="registerUser.personalId" 
+                                 #personalId="ngModel"
+                                 id="input-personalId"
+                                 [status]="personalId.touched ? (personalId.invalid ?  'danger': 'succes'): 'basic' "
+                                 placeholder="PESEL">
+                                 <ng-container *ngIf="personalId.invalid && personalId.touched">
+                                    <p class="caption status-danger" *ngIf="personalId.errors?.required">
+                                        Pole PESEL jest wymagane
+                                    </p>
+                                 </ng-container>
+                            </div>
+                        </div>
+                        <div fxLayout='row' fxLayoutAlign='space-arround' fxLayoutGap="20px">
+                            <div class="form-group">
+                                <label class="label" for="input-password" col-form-label>Hasło</label>
+                                <input class="form-control" 
+                                 nbInput 
+    
+                                 required
+                                 name="password"
+                                 type="password"
+                                 [(ngModel)]="registerUser.password"
+                                 #password="ngModel"
+                                 placeholder="hasło"
+                                 id="input-password"
+                                 [status]="password.touched ? (password.invalid ?  'danger': 'succes'): 'basic' ">
+                                 <ng-container *ngIf="password.invalid && password.touched">
+                                    <p class="caption status-danger" *ngIf="password.errors?.required">
+                                        Pole hasło jest wymagane
+                                    </p>
+                                 </ng-container>
+                            </div>
+                            <div class="form-group">
+                                <label class="label" for="input-confirmPassword" col-form-label>Powtórz</label>
+                                <input class="form-control" 
+                                 nbInput 
+                                 required
+                                 name="confirmPassword"
+                                 type="confirmPassword"
+                                 [(ngModel)]="registerUser.confirmPassword"
+                                 #confirmPassword="ngModel"
+                                 placeholder="hasło"
+                                 id="input-confirmPassword"
+                                 type='password'
+                                 [status]="confirmPassword.touched ? (confirmPassword.invalid ?  'danger': 'succes'): 'basic' ">
+                                 <ng-container *ngIf="confirmPassword.invalid && confirmPassword.touched">
+                                    <p class="caption status-danger" *ngIf="confirmPassword.errors?.required">
+                                        Pole potwierdź jest wymagane
+                                    </p>
+                                 </ng-container>
+                            </div>
+                        </div>
+                        <div fxLayout='row' fxLayoutAlign='space-arround' fxLayoutGap="20px">
+                            <div class="form-group">
+                                <label class="label" for="select-profession" col-form-label>Zawód</label>
+                                <nb-select
+                                    required
+                                    name="profession"
+                                    [(ngModel)]='registerUser.profession'
+                                    #profession='ngModel'
+                                    placeholder='Zawód'
+                                    id="select-profession"
+                                    [status]="profession.touched ? (profession.invalid ?  'danger': 'succes'): 'basic' ">
+                                    <nb-option *ngFor='let profession of professions' [value]='profession.value'>{{profession.name}}</nb-option>
+                                </nb-select>
+                                <ng-container *ngIf="profession.invalid && profession.touched">
+                                    <p class="caption status-danger" *ngIf="profession.errors?.required">
+                                        Pole Zawód jest wymagane
+                                    </p>
+                                 </ng-container>
+                            </div>
+                            <div class="form-group" *ngIf='registerUser.profession == 1'>
+                                <label class="label" for="input-rtPPNumber" col-form-label>PDWZ</label>
+                                <input class="form-control"
+                                 nbInput 
+                                 [required]='registerUser.profession == 1'
+                                 name="rtPPNumber"
+                                 [(ngModel)]="registerUser.rtPPNumber" 
+                                 #rtPPNumber="ngModel"
+                                 id="input-rtPPNumber"
+                                 [status]="rtPPNumber.touched ? (rtPPNumber.invalid ?  'danger': 'succes'): 'basic' "
+                                 placeholder="PDWZ numer">
+                                 <ng-container *ngIf="rtPPNumber.invalid && rtPPNumber.touched">
+                                    <p class="caption status-danger" *ngIf="rtPPNumber.errors?.required">
+                                        Pole PDWZ jest wymagane
+                                    </p>
+                                 </ng-container>
+                            </div>
+                        </div>
+                        <div class="form-group" *ngIf='registerUser.profession == 1'>
+                            <label class="label" for="select-specialization" col-form-label>Specializacja</label>
+                            <nb-select
+                                [required]='registerUser.profession == 1'
+                                name="specialization"
+                                [(ngModel)]='registerUser.specialization'
+                                #specialization='ngModel'
+                                placeholder='Specializacja'
+                                id="select-specialization"
+                                [status]="specialization.touched ? (specialization.invalid ?  'danger': 'succes'): 'basic' ">
+                                <nb-option *ngFor='let specialization of specializations' [value]='specialization.value'>{{specialization.name}}</nb-option>
+                            </nb-select>
+                            <ng-container *ngIf="specialization.invalid && specialization.touched">
+                                <p class="caption status-danger" *ngIf="specialization.errors?.required">
+                                    Pole Specializacja jest wymagane
+                                </p>
+                             </ng-container>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button class="form-control" nbButton hero shape="semi-round" status="info" type="submit" [disabled]="!registerForm.valid">Rejestruj</button>
+                        </div>
+                    </form>
+                <div style="min-width: 200px;">
+                    <nb-alert *ngIf="submitted" [outline]="statusMessage ? 'success' : 'danger'" role="alert">
+                        <p class="alert-title">{{message}}</p>
+                        <ul  class="alert-message-list">
+                            <li *ngFor="let error of errors" class="alert-message">{{error}}</li>
+                        </ul>
+                    </nb-alert>
+                </div>
+            </div>

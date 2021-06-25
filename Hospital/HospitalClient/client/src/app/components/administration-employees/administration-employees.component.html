@@ -1,0 +1,32 @@
+<div fxFill>
+    <nb-card>
+        <nb-card-header>
+            <h6>Edycja profilu pracownika</h6>
+        </nb-card-header>
+        <nb-card-body>
+            <div fxFill fxLayout="row" fxLayoutGap="10%">
+                <div >
+                    <app-employee-select (userSelected)='userSelected($event)'></app-employee-select>
+                </div>
+                <div fxLayout='column' fxLayoutAlign='space-around center'*ngIf="selectedUserLogin != ''">
+                    <app-account-editor [employee]='employeeData'></app-account-editor>
+                    <div *ngIf="selectedUserLogin != ''" fxLayout='column' fxLayoutGap="10px">
+                        <div>
+                            <label class="label">Usuń profil</label>
+                            <button nbButton shape='semi-round' status='danger' (click)='delete()'>Usuń</button>
+     
+                        </div>
+                    </div>
+                    <div style="min-width: 200px;">
+                        <nb-alert *ngIf="submitted" [outline]="statusMessage ? 'success' : 'danger'" role="alert">
+                            <p class="alert-title">{{message}}</p>
+                            <ul  class="alert-message-list">
+                                <li *ngFor="let error of errors" class="alert-message">{{error}}</li>
+                            </ul>
+                        </nb-alert>
+                    </div>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>
