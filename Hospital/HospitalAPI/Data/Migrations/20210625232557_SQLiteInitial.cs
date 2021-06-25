@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HospitalAPI.Data.Migrations
 {
-    public partial class PostgresInitial : Migration
+    public partial class SQLiteInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,14 +11,14 @@ namespace HospitalAPI.Data.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    Login = table.Column<string>(type: "text", nullable: false),
-                    Profession = table.Column<int>(type: "integer", nullable: false),
-                    Specialization = table.Column<int>(type: "integer", nullable: false),
-                    RtPPNumber = table.Column<string>(type: "text", nullable: true),
-                    PasswordHash = table.Column<string>(type: "text", nullable: false),
-                    FirstName = table.Column<string>(type: "text", nullable: true),
-                    LastName = table.Column<string>(type: "text", nullable: true),
-                    PersonalId = table.Column<string>(type: "text", nullable: false)
+                    Login = table.Column<string>(type: "TEXT", nullable: false),
+                    Profession = table.Column<int>(type: "INTEGER", nullable: false),
+                    Specialization = table.Column<int>(type: "INTEGER", nullable: false),
+                    RtPPNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
+                    PersonalId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,11 +29,11 @@ namespace HospitalAPI.Data.Migrations
                 name: "Schedules",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Month = table.Column<int>(type: "integer", nullable: false),
-                    Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    EmployeeLogin = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Month = table.Column<int>(type: "INTEGER", nullable: false),
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    EmployeeLogin = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
