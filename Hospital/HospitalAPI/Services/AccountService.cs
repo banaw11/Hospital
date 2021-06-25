@@ -82,7 +82,7 @@ namespace HospitalAPI.Services
         public async Task<UserDTO> SignInUser(LoginUserDTO dto)
         {
             var employee = await _dbContext.Employees
-                 .FirstOrDefaultAsync(e => e.Login == dto.Login);
+                 .FirstOrDefaultAsync(e => e.Login.ToUpper() == dto.Login.ToUpper());
 
             if (employee is null)
                 throw new BadRequestException($"Nieprawidłowy login lub hasło");

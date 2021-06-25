@@ -35,7 +35,11 @@ namespace HospitalAPI.Data.Seeding
             foreach (var employee in employees)
             {
                 employee.PasswordHash = _passwordHasher.HashPassword(employee, "Pa$$w0rd");
-                employee.Login = await GenerateLogin();
+                if(employee.Profession != Helpers.Enums.Profession.ADMINISTRATOR)
+                {
+                    employee.Login = await GenerateLogin();
+                }
+                
             }
 
             await _dbContext.Employees.AddRangeAsync(employees);

@@ -319,12 +319,14 @@
     "FirstName": "Trujillo",
     "LastName": "Daniel",
     "PersonalId": "971229977770",
-    "Profession": 0
+    "Profession": 0,
+    "Login": "XX19593"
   },
   {
     "FirstName": "Goldie",
     "LastName": "Harmon",
     "PersonalId": "921020573768",
-    "Profession": 0
+    "Profession": 0,
+    "Login": "XX19594"
   }
 ]
