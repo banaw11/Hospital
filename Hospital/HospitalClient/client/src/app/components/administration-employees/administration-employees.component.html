@@ -8,11 +8,14 @@
                 <div >
                     <app-employee-select (userSelected)='userSelected($event)'></app-employee-select>
                 </div>
-                <div *ngIf="selectedUserLogin != ''">
+                <div fxLayout='column' fxLayoutAlign='space-around center'*ngIf="selectedUserLogin != ''">
                     <app-account-editor [employee]='employeeData'></app-account-editor>
                     <div *ngIf="selectedUserLogin != ''" fxLayout='column' fxLayoutGap="10px">
-                        <label class="label">Usuń profil</label>
-                        <button nbButton shape='semi-round' status='danger' (click)='delete()'>Usuń</button>
+                        <div>
+                            <label class="label">Usuń profil</label>
+                            <button nbButton shape='semi-round' status='danger' (click)='delete()'>Usuń</button>
+     
+                        </div>
                     </div>
                     <div style="min-width: 200px;">
                         <nb-alert *ngIf="submitted" [outline]="statusMessage ? 'success' : 'danger'" role="alert">

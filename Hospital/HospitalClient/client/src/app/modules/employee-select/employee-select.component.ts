@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Observable } from 'rxjs';
 import { BasicEmployeDetails } from 'src/app/models/basicEmployeDetails';
 import { Profession, Specialization } from 'src/app/models/enums';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -37,10 +38,12 @@ export class EmployeeSelectComponent implements OnInit {
 
   onSelect(login: string){
     this.userSelected.emit(login);
-    console.log(login);
   }
 
   professionSelected(prof: Profession){
+    if(this.profession == 2){
+      this.employees = [];
+    }
     this.profession = prof;
     if(prof != 1){
       this.employeeService.getEmployees(prof).subscribe(empl => {

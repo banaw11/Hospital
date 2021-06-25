@@ -17,6 +17,6 @@ namespace HospitalAPI.Interfaces
         Task<IEnumerable<DateTime>> GetAvailableDaysForNew(string employeeLogin, int month);
         Task<bool> CreateNewSchedule(DateTime date, string employeeLogin);
         Task<bool> DeleteSchedule(int scheduleId);
-        Task<bool> UpdateSchedule(int scheduleId, DateTime date);
+        Task<bool> UpdateSchedule(int scheduleId, int day);
     }
 }

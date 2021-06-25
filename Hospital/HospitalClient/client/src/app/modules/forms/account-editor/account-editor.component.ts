@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EmployeeDetails } from 'src/app/models/employeeDetails';
 import { AccountService } from 'src/app/services/account.service';
@@ -8,7 +8,7 @@ import { AccountService } from 'src/app/services/account.service';
   templateUrl: './account-editor.component.html',
   styleUrls: ['./account-editor.component.scss']
 })
-export class AccountEditorComponent implements OnInit {
+export class AccountEditorComponent implements OnInit, OnChanges {
   @Input() employee : Observable<EmployeeDetails> = new Observable<EmployeeDetails>();
   employeeDetails : EmployeeDetails = {};
   submitted: boolean = false;
@@ -17,6 +17,15 @@ export class AccountEditorComponent implements OnInit {
   errors: string[]=[];
   constructor(private accountService: AccountService) { 
     
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.employee){
+      changes.employee.currentValue.subscribe((data: EmployeeDetails) => {
+        if(data){
+          this.employeeDetails = data;
+        }
+      })
+    }
   }
 
   ngOnInit(): void {

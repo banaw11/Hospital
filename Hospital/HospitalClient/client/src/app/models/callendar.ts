@@ -17,7 +17,8 @@ export class Callendar{
                 date: _date,
                 dayOfWeek: {value : _date.getDay(), name : this.nameOfDay(_date.getDay())},
                 dayNumber : d,
-                isDuty : false
+                isDuty : false,
+                isAvailable: false,
             })
         }
     }

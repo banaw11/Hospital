@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { EmployeeDetails } from 'src/app/models/employeeDetails';
 import { AccountService } from 'src/app/services/account.service';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -18,7 +19,8 @@ export class AdministrationEmployeesComponent implements OnInit {
   message? : string;
   errors: string[]=[];
   hidden : boolean = true;
-  employeeData: Observable<EmployeeDetails> = new Observable<EmployeeDetails>();
+  employeDataSource = new BehaviorSubject<EmployeeDetails>({});
+  employeeData = this.employeDataSource.asObservable();
   constructor(public employeeService: EmployeeService, private accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
@@ -26,7 +28,9 @@ export class AdministrationEmployeesComponent implements OnInit {
 
   userSelected(event:string){
     this.selectedUserLogin = event;
-    this.employeeData = this.employeeService.getProfileData(event)
+    this.employeeService.getProfileData(event).subscribe(data => {
+      this.employeDataSource.next(data);
+    })
   }
 
   delete(){
